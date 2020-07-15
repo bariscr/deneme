@@ -1,6 +1,2 @@
 # deneme
-deneme
-deneme2
-deneme3
-deneme 323423
-selam gökhan....
+Deneme çalışmaları yer alacak.
