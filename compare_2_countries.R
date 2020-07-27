@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(dplyr)
+load("covid_data_26072020.Rdata")
 
 ui <- fluidPage(
   h1("COVID COMPARISON"),
@@ -14,7 +15,10 @@ ui <- fluidPage(
   })
 )
 
+
+
 server <- function(input, output) {
+  
   data <- reactive({
     covid_data_26072020 %>% filter(location == input$country1 | location == input$country2, date >= input$daterange[1], date <= input$daterange[2])
   })
