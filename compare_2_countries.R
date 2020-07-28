@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(dplyr)
+library(rio)
 
 # load data ----
 covid_data <- rio::import('https://github.com/owid/covid-19-data/raw/master/public/data/owid-covid-data.xlsx',
@@ -27,7 +28,7 @@ ui <- fluidPage(
   dateRangeInput("daterange", "Select a date range", start = "2019-12-31", end = Sys.Date()),
   tableOutput("tablo"),
   mainPanel({
-    plotOutput("graph")
+    plotOutput("graph", brush = "click")
   })
 )
 
@@ -37,7 +38,7 @@ server <- function(input, output) {
     covid_data %>% filter(location == input$country1 | location == input$country2, date >= input$daterange[1], date <= input$daterange[2])
   })
   output$tablo <- renderTable({
-    head(data(), 5)
+    brushedPoints(data(), input$click, yvar = input$variable)
   })
   output$graph <- renderPlot({
     ggplot(data(), aes(x = date, y = .data[[input$variable]], color = location)) + geom_point()
