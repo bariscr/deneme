@@ -2,8 +2,9 @@ shinyServer(function(input, output, session) {
 
   output$approvalBox <- renderInfoBox({
     infoBox(
-      "Number of Cases", 
-      covid_data$total_cases[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
+      "Number of Total Cases", 
+      value = tags$p(covid_data$total_cases[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
+                     style = "font-size: 40px;"),
       icon = icon("asterisk", lib = "glyphicon"),
       color = "yellow"
     )
@@ -11,8 +12,9 @@ shinyServer(function(input, output, session) {
   
   output$approvalBox2 <- renderInfoBox({
     infoBox(
-      "Number of Deaths", 
-      covid_data$total_deaths[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
+      "Number of Total Deaths", 
+      value = tags$p(covid_data$total_deaths[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
+                     style = "font-size: 40px; color:white; background-color:black; "),
       icon = icon("warning-sign", lib = "glyphicon"),
       color = "black"
     )
