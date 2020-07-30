@@ -1,5 +1,5 @@
 shinyUI <-   dashboardPage(
-  skin = "purple",
+  skin = "purple", 
   dashboardHeader(title = "COVID-19 Dashboard"),
   dashboardSidebar(sidebarMenu(
     menuItem("Country COVID-19 Profile", tabName = "tab_1", icon = icon("heart")),

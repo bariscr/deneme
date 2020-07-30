@@ -1,5 +1,5 @@
-shinyServer(function(input, output, session) {
-
+shinyServer <- function(input, output, session) {
+  
   output$approvalBox <- renderInfoBox({
     infoBox(
       "Number of Total Cases", 
@@ -14,7 +14,7 @@ shinyServer(function(input, output, session) {
     infoBox(
       "Number of Total Deaths", 
       value = tags$p(covid_data$total_deaths[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
-                     style = "font-size: 40px; color:white; background-color:black; "),
+                     style = "font-size: 40px; color:white; background-color:black"),
       icon = icon("warning-sign", lib = "glyphicon"),
       color = "black"
     )
@@ -29,7 +29,9 @@ shinyServer(function(input, output, session) {
   output$graph <- renderPlot({
     ggplot(data(), aes(x = date, y = .data[[input$variable]], color = location)) + geom_point() + 
       scale_x_date(breaks = date_breaks("month")) + 
-      theme(axis.text.x = element_text(angle = -90))
+      theme(axis.text.x = element_text(angle = -90)) + 
+      labs(title = paste0("'",input$variable, "' Comparison between ", input$country1, " & ", input$country2), x = "Date", y = input$variable) + 
+      theme_dark()
   })
   
   data_alone <- reactive({
@@ -45,9 +47,12 @@ shinyServer(function(input, output, session) {
       renk <- renk + 1
       p <- p + geom_point(aes(y = .data[[input$variable_compare[aa]]]), color =  renk)
     }
+    p <- p +  
+      labs(title = paste0("Comparison between ", input$variable_compare[1], " - ", input$variable_compare[2], " variables in ", input$country_alone), x = "Date", y = "") +
+      theme_dark()
     p
   })
 }
-)
+
 
 
