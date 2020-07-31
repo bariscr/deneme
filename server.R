@@ -2,10 +2,11 @@ shinyServer <- function(input, output, session) {
   
   output$approvalBox <- renderInfoBox({
     infoBox(
-      "Number of Total Cases", 
+      title = "Number of Total Cases", 
       value = tags$p(covid_data$total_cases[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
-                     style = "font-size: 40px;"),
+                     style = "font-size: 40px; color:blue"),
       icon = icon("asterisk", lib = "glyphicon"),
+      fill = TRUE,
       color = "yellow"
     )
   })
@@ -14,9 +15,23 @@ shinyServer <- function(input, output, session) {
     infoBox(
       "Number of Total Deaths", 
       value = tags$p(covid_data$total_deaths[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
-                     style = "font-size: 40px; color:white; background-color:black"),
+                     style = "font-size: 40px; color:white"),
       icon = icon("warning-sign", lib = "glyphicon"),
+      fill = TRUE,
       color = "black"
+    )
+  })
+  
+  data_tab1 <- reactive({
+    covid_data %>% filter(location == input$country_select_tab1, date == input$date_tab1)
+  })
+  output$approvalBox3 <- renderInfoBox({
+    infoBox(
+      "Death Rate (%)",
+      value = tags$p(round(data_tab1()$total_deaths / data_tab1()$total_cases * 100, 1), style = "font-size: 40px; color: white"),
+      icon = icon("battery-0"),
+      fill = TRUE,
+      color = "red"
     )
   })
   
@@ -29,6 +44,7 @@ shinyServer <- function(input, output, session) {
   output$graph <- renderPlot({
     ggplot(data(), aes(x = date, y = .data[[input$variable]], color = location)) + geom_point() + 
       scale_x_date(breaks = date_breaks("month")) + 
+      scale_color_manual(name = "Countries", labels = c(input$country1, input$country2), values = c("green", "red")) + 
       labs(title = paste0("'",input$variable, "' Comparison between ", input$country1, " & ", input$country2), x = "Date", y = input$variable) + 
       theme_dark() + 
       theme(axis.text.x = element_text(angle = -90)) 

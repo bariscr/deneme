@@ -15,9 +15,11 @@ shinyUI <-   dashboardPage(
             fluidPage(
               selectInput("country_select_tab1", "Select Country", choices = unique(covid_data$location)),
               dateInput("date_tab1", "Select a Date", value = Sys.Date()),
-              infoBoxOutput("approvalBox"),
-              infoBoxOutput("approvalBox2")
-            )),    
+              fluidRow(infoBoxOutput("approvalBox", width = 4),
+                       infoBoxOutput("approvalBox2", width = 4),
+                       infoBoxOutput("approvalBox3", width = 4))
+              )
+            ),    
     
     tabItem("tab_2",
             fluidPage(
