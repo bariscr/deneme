@@ -29,9 +29,9 @@ shinyServer <- function(input, output, session) {
   output$graph <- renderPlot({
     ggplot(data(), aes(x = date, y = .data[[input$variable]], color = location)) + geom_point() + 
       scale_x_date(breaks = date_breaks("month")) + 
-      theme(axis.text.x = element_text(angle = -90)) + 
       labs(title = paste0("'",input$variable, "' Comparison between ", input$country1, " & ", input$country2), x = "Date", y = input$variable) + 
-      theme_dark()
+      theme_dark() + 
+      theme(axis.text.x = element_text(angle = -90)) 
   })
   
   data_alone <- reactive({
