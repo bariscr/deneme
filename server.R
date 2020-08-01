@@ -68,7 +68,24 @@ shinyServer <- function(input, output, session) {
       theme_dark()
     p
   })
+
+  # TOP 10 sekmesinde kullanılacak veri setinin oluşturulması
+  sirali <- reactive({
+    sirali <- covid_data[, c("location", "date", input$top_10)] %>% filter(location != "World", date == input$top_10_date) 
+    sirali <- arrange(sirali, desc(.data[[input$top_10]])) %>% head(10) 
+    sirali <- sirali[, c(1, 3)]
+  })
+  
+  # İlk 10 sıranın tablo gösterimi
+  output$top_10_table <- renderTable({
+    sirali()
+  })
+  
+  # İlk 10 sıranın grafik gösterimi
+  output$top_10_graph <- renderPlot({
+    ggplot(sirali(), aes(x = reorder(location,  .data[[input$top_10]]), y = .data[[input$top_10]], fill = location)) +
+      geom_bar(show.legend = FALSE,   stat = "identity") + coord_flip() + theme_dark() +
+      labs(title = paste0("TOP 10 Countries (", input$top_10, ")"), x = "", y = "Countries")
+  })
 }
-
-
 
