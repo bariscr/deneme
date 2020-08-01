@@ -4,13 +4,13 @@ shinyServer <- function(input, output, session) {
     infoBox(
       title = "Number of Total Cases", 
       value = tags$p(covid_data$total_cases[covid_data$location == input$country_select_tab1 & covid_data$date == input$date_tab1], 
-                     style = "font-size: 40px; color:blue"),
+                     style = "font-size: 40px; color:white"),
       icon = icon("asterisk", lib = "glyphicon"),
       fill = TRUE,
       color = "yellow"
     )
   })
-  
+
   output$approvalBox2 <- renderInfoBox({
     infoBox(
       "Number of Total Deaths", 
@@ -44,10 +44,16 @@ shinyServer <- function(input, output, session) {
   output$graph <- renderPlot({
     ggplot(data(), aes(x = date, y = .data[[input$variable]], color = location)) + geom_point() + 
       scale_x_date(breaks = date_breaks("month")) + 
-      scale_color_manual(name = "Countries", labels = sort(c(input$country1, input$country2)), values = c("green", "red")) + 
-      labs(title = paste0("'",input$variable, "' Comparison between ", input$country1, " & ", input$country2), x = "Date", y = input$variable) + 
-      theme_dark() + 
-      theme(axis.text.x = element_text(angle = -90)) 
+      scale_y_continuous(breaks = seq(min(data()[input$variable]), max(data()[input$variable]), round(max(data()[input$variable])/10, 0))) + 
+      scale_color_manual(name = "Countries", labels = sort(c(input$country1, input$country2)), values = c("green", "turquoise3")) + 
+      labs(title = paste0("'",input$variable, "' Comparison between ", input$country1, " & ", input$country2), x = "Date") + 
+      dark_theme_minimal() +
+      theme(axis.text.x = element_text(angle = -45, color = "red4"),
+            plot.title = element_text(face = "bold", size = 14, color = "red4", hjust = 0.5),
+            legend.text = element_text(size = 12),
+            legend.title = element_text(size = 12, color = "red4"),
+            axis.text.y = element_text(size = 12, color = "red4"),
+            ) 
   })
   
   data_alone <- reactive({
@@ -60,12 +66,16 @@ shinyServer <- function(input, output, session) {
     p <- ggplot(data_alone(), aes(x = date))
     renk <- 0
     for (aa in 1:length(input$variable_compare)) {
-      renk <- renk + 1
+      renk <- renk + 2
       p <- p + geom_point(aes(y = .data[[input$variable_compare[aa]]]), color =  renk)
     }
     p <- p +  
       labs(title = paste0("Comparison between ", input$variable_compare[1], " - ", input$variable_compare[2], " variables in ", input$country_alone), x = "Date", y = "") +
-      theme_dark()
+      dark_theme_minimal() +
+      theme(axis.text.x = element_text(angle = -45, color = "red4"),
+            plot.title = element_text(face = "bold", size = 14, color = "red4", hjust = 0.5),
+            axis.text.y = element_text(size = 12, color = "red4")
+           ) 
     p
   })
 
@@ -84,8 +94,13 @@ shinyServer <- function(input, output, session) {
   # İlk 10 sıranın grafik gösterimi
   output$top_10_graph <- renderPlot({
     ggplot(sirali(), aes(x = reorder(location,  .data[[input$top_10]]), y = .data[[input$top_10]], fill = location)) +
-      geom_bar(show.legend = FALSE,   stat = "identity") + coord_flip() + theme_dark() +
-      labs(title = paste0("TOP 10 Countries (", input$top_10, ")"), x = "", y = "Countries")
+      geom_bar(show.legend = FALSE,   stat = "identity") + coord_flip() + dark_theme_minimal() +
+      labs(title = paste0("TOP 10 Countries (", input$top_10, ")"), x = "", y = "") + 
+      theme(axis.text.x = element_text(angle = -45, color = "red4"),
+            plot.title = element_text(face = "bold", size = 14, color = "red4", hjust = 0.5),
+            axis.text.y = element_text(size = 12, color = "red4")
+           ) 
   })
 }
+
 
