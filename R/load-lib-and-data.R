@@ -14,10 +14,10 @@ covid_data <- rio::import('https://github.com/owid/covid-19-data/raw/master/publ
                                         "numeric", "numeric", "numeric", 
                                         "numeric", "numeric", "numeric", 
                                         "numeric", "numeric", "numeric", 
-                                        "numeric", "numeric", "text", "numeric", 
+                                        "numeric", "numeric", "numeric", "numeric", 
+                                        "text", "numeric", "numeric", 
                                         "numeric", "numeric", "numeric", 
                                         "numeric", "numeric", "numeric", 
                                         "numeric", "numeric", "numeric", 
-                                        "numeric", "numeric", "numeric", 
-                                        "numeric", "numeric"))
+                                        "numeric", "numeric", "numeric", "numeric"))
 covid_data$date <- as.Date(covid_data$date)
