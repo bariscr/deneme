@@ -65,15 +65,18 @@ shinyServer <- function(input, output, session) {
     req(input$variable_compare)
     p <- ggplot(data_alone(), aes(x = date))
     renk <- 0
+    vars_alone <- "a"
     for (aa in 1:length(input$variable_compare)) {
       renk <- renk + 2
       p <- p + geom_point(aes(y = .data[[input$variable_compare[aa]]]), color =  renk)
+      vars_alone <- paste0(vars_alone, input$variable_compare[aa])
+      print(vars_alone)
     }
     p <- p +  
-      labs(title = paste0("Comparison between ", input$variable_compare[1], " - ", input$variable_compare[2], " variables in ", input$country_alone), x = "Date", y = "") +
+      labs(title =  paste0(" variables in ", vars_alone, input$country_alone), x = "Date", y = "") +
       dark_theme_minimal() +
       theme(axis.text.x = element_text(angle = -45, color = "red4"),
-            plot.title = element_text(face = "bold", size = 14, color = "red4", hjust = 0.5),
+            plot.title = element_text(face = "bold", size = 14, color = "yellow", hjust = 0.5),
             axis.text.y = element_text(size = 12, color = "red4")
            ) 
     p
