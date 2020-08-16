@@ -5,9 +5,9 @@ account: barisucar
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2624875
-bundleId: 3451921
+bundleId: 3521751
 url: https://barisucar.shinyapps.io/COVID-19/
-when: 1596053469.67934
+when: 1597578358.70822
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: README.md|code/compare_2_countries.R|code/deneme.R|code/import_data.R|code/variable_list.R

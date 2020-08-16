@@ -61,7 +61,8 @@ shinyServer <- function(input, output, session) {
   })
   
   
-  output$plot_alone <- renderPlot({
+  output$plot_alone <- renderPlot(
+    {
     req(input$variable_compare)
     p <- ggplot(data_alone(), aes(x = date))
     renk <- 0
@@ -74,7 +75,7 @@ shinyServer <- function(input, output, session) {
     }
     p <- p +  
       labs(title =  paste0(" variables in ", vars_alone, input$country_alone), x = "Date", y = "") +
-      dark_theme_minimal() +
+      theme_economist() +
       theme(axis.text.x = element_text(angle = -45, color = "red4"),
             plot.title = element_text(face = "bold", size = 14, color = "yellow", hjust = 0.5),
             axis.text.y = element_text(size = 12, color = "red4")
@@ -95,9 +96,11 @@ shinyServer <- function(input, output, session) {
   })
   
   # İlk 10 sıranın grafik gösterimi
-  output$top_10_graph <- renderPlot({
+  output$top_10_graph <- renderPlot(height = 900,
+    {
     ggplot(sirali(), aes(x = reorder(location,  .data[[input$top_10]]), y = .data[[input$top_10]], fill = location)) +
-      geom_bar(show.legend = FALSE,   stat = "identity") + coord_flip() + dark_theme_minimal() +
+      geom_bar(show.legend = FALSE,   stat = "identity") + coord_flip() + 
+      theme_solarized() +
       labs(title = paste0("TOP 10 Countries (", input$top_10, ")"), x = "", y = "") + 
       theme(axis.text.x = element_text(angle = -45, color = "red4"),
             plot.title = element_text(face = "bold", size = 14, color = "red4", hjust = 0.5),

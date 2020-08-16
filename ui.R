@@ -55,7 +55,7 @@ shinyUI <-   dashboardPage(
             )),
     
     tabItem("tab_4",
-            fluidPage(
+            fluidPage(column(width = 6, height = "1630px",
               selectInput("top_10", "Select a variable", choices = c("Total Cases" = "total_cases", "New Cases" = "new_cases",
                                                                                          "Total Deaths" = "total_deaths", "New Deaths" = "new_deaths",
                                                                                          "Total Cases per Million" = "total_cases_per_million", 
@@ -63,8 +63,7 @@ shinyUI <-   dashboardPage(
                                                                                          "Total Deaths per Million" = "total_deaths_per_million", 
                                                                                          "New Deaths per Million" = "new_deaths_per_million")),
               dateInput("top_10_date", "Select a date", value = Sys.Date()),
-              tableOutput("top_10_table"),
               plotOutput("top_10_graph")
-              
+            )
             ))
   )))

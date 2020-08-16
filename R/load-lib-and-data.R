@@ -7,6 +7,7 @@ library(scales)
 library(purrr)
 library(bubblyr)
 library(ggdark)
+library(ggthemes)
 
 covid_data <- rio::import('https://github.com/owid/covid-19-data/raw/master/public/data/owid-covid-data.xlsx',
                           col_types = c("text", "text", "text", 
